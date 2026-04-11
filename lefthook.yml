@@ -1,0 +1,11 @@
+# https://lefthook.dev/configuration/
+pre-commit:
+  parallel: false
+  commands:
+    oxfmt:
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      run: npx oxfmt --write {staged_files}
+      stage_fixed: true
+    oxlint:
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      run: npx oxlint {staged_files}
