@@ -42,8 +42,20 @@ Promote code from a module into `src/` **only** when a second module needs it.
 
 Path alias: `@/*` → `./src/*` (see `tsconfig.json`). Prefer `@/modules/...`, `@/ui/...`, `@/constants/...`.
 
+## Package manager — Bun only
+
+Use **[Bun](https://bun.sh)** for installs and scripts. **Do not** use `npm`, `npx`, `pnpm`, or `yarn` for this repo unless an external doc explicitly requires it.
+
+| Task                          | Command                                                       |
+| ----------------------------- | ------------------------------------------------------------- |
+| Install deps                  | `bun install`                                                 |
+| Run a package.json script     | `bun run <script>` (e.g. `bun run lint`, `bun run start`)     |
+| Run a dev dependency CLI once | `bunx <pkg> <args>` (e.g. `bunx expo start`, `bunx oxlint .`) |
+
+Lockfile: **`bun.lock`** is the source of truth. Scripts in `package.json` and `lefthook.yml` use **`bunx`** for `expo`, `oxlint`, `oxfmt`, and `lefthook` so binaries resolve from `node_modules` without `npx`.
+
 ## Tooling
 
-- Lint: `npm run lint` (oxlint)
-- Format: `npm run format` / `npm run format:check` (oxfmt)
-- Pre-commit: Lefthook runs oxfmt and oxlint on staged files (`lefthook.yml`)
+- Lint: `bun run lint` (`bunx oxlint .`)
+- Format: `bun run format` / `bun run format:check` (`bunx oxfmt`)
+- Pre-commit: Lefthook runs `bunx oxfmt` and `bunx oxlint` on staged files (`lefthook.yml`)
