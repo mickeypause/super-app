@@ -7,6 +7,14 @@ Conventions for navigating and extending this Expo Router (React Native) codebas
 - **`src/app/`** — **Routes only** (layouts + thin re-exports). No feature implementation here. Expo Router scans this tree; non-route files here are easy to mis-pick up as routes.
 - **`src/modules/<slug>/`** — **Feature code** for that area: `screens/`, `components/`, `hooks/`, `utils/`. **Not** route entries.
 - **`src/`** shared — **`src/ui/`** (small primitives: `Text`, `Button`, `TextInput`), **`src/constants/`**, **`src/utils/`**, etc. **Not** full screens.
+- **`src/db/`** — TanStack **Query** client, providers, and **TanStack DB** collections (reactive client data layer).
+
+## Data — TanStack Query + TanStack DB
+
+- **[TanStack Query](https://tanstack.com/query/latest)** (`@tanstack/react-query`) owns the **cache and network** layer: `QueryClient` in [`src/db/query-client.ts`](src/db/query-client.ts), app shell wrapped with **`AppQueryProvider`** in [`src/db/providers.tsx`](src/db/providers.tsx) (used from [`src/app/_layout.tsx`](src/app/_layout.tsx)).
+- **[TanStack DB](https://tanstack.com/db/latest)** (`@tanstack/react-db`) adds **collections** and **`useLiveQuery`** for reactive, normalized reads. Server-backed lists typically use **`@tanstack/query-db-collection`** with **`queryCollectionOptions`** (`queryKey`, `queryFn`, **`queryClient`**, **`getKey`**).
+- Put shared collections under **`src/db/collections/`** (e.g. [`src/db/collections/demo-todos.ts`](src/db/collections/demo-todos.ts)). Module screens import collections and call **`useLiveQuery`** / collection mutations per [Quick Start](https://tanstack.com/db/latest/docs/quick-start) and [React DB](https://tanstack.com/db/latest/docs/framework/react) docs.
+- **Local-only** client state (no server) can use **`localOnlyCollectionOptions`** from `@tanstack/react-db` when you do not need TanStack Query for that data ([local-only collections](https://tanstack.com/db/latest/docs/collections/local-only-collection)).
 
 ## 1:1 mapping — `app` groups ↔ `modules`
 
