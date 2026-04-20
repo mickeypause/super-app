@@ -9,6 +9,14 @@ Conventions for navigating and extending this Expo Router (React Native) codebas
 - **`src/`** shared — **`src/ui/`** (small primitives: `Text`, `Button`, `TextInput`), **`src/constants/`**, **`src/utils/`**, etc. **Not** full screens.
 - **`src/db/`** — TanStack **Query** client, providers, and **TanStack DB** collections (reactive client data layer).
 
+## Styling — Unistyles 3
+
+- **[Unistyles 3](https://www.unistyl.es/)** (`react-native-unistyles`) replaces React Native's `StyleSheet`. Import `StyleSheet` from `react-native-unistyles` (never from `react-native`) in any styled component/screen.
+- App config lives in **[`src/unistyles.ts`](src/unistyles.ts)** (themes, breakpoints, `adaptiveThemes` setting). It is side-effect imported once from [`src/app/_layout.tsx`](src/app/_layout.tsx) — do not re-import it elsewhere.
+- Themes are `light` / `dark` and follow system appearance via `adaptiveThemes: true`. Access them via the theme function arg: `StyleSheet.create(theme => ({ ... }))`.
+- Babel integration: **[`babel.config.js`](babel.config.js)** registers `react-native-unistyles/plugin` with `root: "src"`. All files under `src/` are processed by the plugin. If you add source outside `src/`, extend `autoProcessPaths` / `autoProcessImports`.
+- Native deps: `react-native-nitro-modules` is required by Unistyles; re-run `bunx expo prebuild --clean` after changing native configuration.
+
 ## Data — TanStack Query + TanStack DB
 
 - **[TanStack Query](https://tanstack.com/query/latest)** (`@tanstack/react-query`) owns the **cache and network** layer: `QueryClient` in [`src/db/query-client.ts`](src/db/query-client.ts), app shell wrapped with **`AppQueryProvider`** in [`src/db/providers.tsx`](src/db/providers.tsx) (used from [`src/app/_layout.tsx`](src/app/_layout.tsx)).
