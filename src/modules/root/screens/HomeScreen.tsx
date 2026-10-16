@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native-unistyles";
 import { eq, useLiveQuery } from "@tanstack/react-db";
 
 import { routes } from "@/constants/routes";
@@ -49,9 +50,10 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   safe: {
     flex: 1,
+    backgroundColor: theme.colors.background,
   },
   body: {
     paddingHorizontal: 24,
@@ -62,34 +64,37 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "700",
     marginBottom: 4,
+    color: theme.colors.text,
   },
   subtitle: {
     fontSize: 15,
     lineHeight: 22,
-    opacity: 0.75,
     marginBottom: 8,
+    color: theme.colors.textMuted,
   },
   section: {
     fontSize: 16,
     fontWeight: "600",
     marginTop: 8,
+    color: theme.colors.text,
   },
   spinner: {
     marginVertical: 8,
   },
   muted: {
     fontSize: 14,
-    opacity: 0.7,
+    color: theme.colors.textMuted,
   },
   todoLine: {
     fontSize: 14,
     lineHeight: 20,
-    opacity: 0.85,
+    color: theme.colors.text,
   },
   link: {
     fontSize: 17,
     fontWeight: "600",
     paddingVertical: 6,
     marginTop: 8,
+    color: theme.colors.primary,
   },
-});
+}));
